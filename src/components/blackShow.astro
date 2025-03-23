@@ -1,0 +1,118 @@
+
+<div style="" class=" bg-transparent w-dvw min-h-dvh h-full fixed top-0 left-0">
+     <svg class=" w-full h-full" id="innerbox" preserveAspectRatio="none">
+        <defs>
+          <mask id="hole">
+            <rect width="100%" height="100%" fill="white"/>
+
+          </mask>
+        </defs>
+        <!-- create a rect, fill it with the color and apply the above mask -->
+
+        <filter id="noiseFilter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.4" numOctaves="3" stitchTiles="stitch"/>
+            <feBlend in="SourceGraphic" in2="floodFill" mode="lighten" />
+            <feComponentTransfer>
+                <feFuncR type="table" tableValues="0 0.02"/>
+                <feFuncG type="table" tableValues="0 0.02"/>
+                <feFuncB type="table" tableValues="0 0.02"/>
+                <feFuncA type="table" tableValues="1 1"/>
+            </feComponentTransfer>
+
+        </filter>
+        
+
+        <rect fill="#111111" width="100%" height="100%" mask="url(#hole)"  filter="url(#noiseFilter)"/>
+    </svg>
+</div>
+
+<script>
+
+function addRandomPolygons(totalPolygons) {
+  let count = 0;
+  const innerbox = document.getElementById('innerbox');
+  const mask = document.querySelector('#hole');
+  const container = innerbox.parentElement;
+  
+  // Get viewport dimensions for aspect ratio calculation
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+  const aspectRatio = viewportWidth / viewportHeight;
+  
+  // Set minimum rectangle size
+  const minSize = 400; // Minimum height in pixels
+  
+  // Array to store corner polygon coordinates [will be filled later]
+  const cornerPolygons = [];
+  
+  // Size for corner rectangles
+  const cornerRectHeight = 400;
+  const cornerRectWidth = cornerRectHeight * aspectRatio;
+  
+  // Define corner positions
+  cornerPolygons.push({
+    // Top left
+    points: `0,0 ${cornerRectWidth},0 ${cornerRectWidth},${cornerRectHeight} 0,${cornerRectHeight}`
+  });
+  cornerPolygons.push({
+    // Top right
+    points: `${viewportWidth - cornerRectWidth},0 ${viewportWidth},0 ${viewportWidth},${cornerRectHeight} ${viewportWidth - cornerRectWidth},${cornerRectHeight}`
+  });
+  cornerPolygons.push({
+    // Bottom left
+    points: `0,${viewportHeight - cornerRectHeight} ${cornerRectWidth},${viewportHeight - cornerRectHeight} ${cornerRectWidth},${viewportHeight} 0,${viewportHeight}`
+  });
+  cornerPolygons.push({
+    // Bottom right
+    points: `${viewportWidth - cornerRectWidth},${viewportHeight - cornerRectHeight} ${viewportWidth},${viewportHeight - cornerRectHeight} ${viewportWidth},${viewportHeight} ${viewportWidth - cornerRectWidth},${viewportHeight}`
+  });
+  
+  const interval = setInterval(() => {
+    // If we've finished with random polygons, add corner ones
+    if (count >= totalPolygons) {
+      if (cornerPolygons.length > 0) {
+        // Get the next corner polygon
+        const cornerData = cornerPolygons.shift();
+        
+        // Create the polygon element
+        const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+        polygon.setAttribute("points", cornerData.points);
+        polygon.setAttribute("fill", "black");
+        
+        // Add the polygon to the mask
+        mask.appendChild(polygon);
+      } else {
+        // We've added all corner polygons, now remove div
+        clearInterval(interval);
+        container.remove();
+      }
+      return;
+    }
+    
+    // Random size with minimum constraint
+    const rectHeight = minSize + Math.random() * 70; // Random height between minSize and minSize+70
+    const rectWidth = rectHeight * aspectRatio; // Maintain aspect ratio
+    
+    // Random position within viewport
+    const x = Math.random() * (viewportWidth - rectWidth);
+    const y = Math.random() * (viewportHeight - rectHeight);
+    
+    // Create the polygon (rectangle) points
+    const points = `${x},${y} ${x + rectWidth},${y} ${x + rectWidth},${y + rectHeight} ${x},${y + rectHeight}`;
+    
+    // Create the polygon element
+    const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+    polygon.setAttribute("points", points);
+    polygon.setAttribute("fill", "black");
+    
+    // Add the polygon to the mask
+    mask.appendChild(polygon);
+    
+    count++;
+  }, 100);
+}
+
+// Start the animation with 50 polygons (you can change this number)
+addRandomPolygons(50);
+
+</script>
