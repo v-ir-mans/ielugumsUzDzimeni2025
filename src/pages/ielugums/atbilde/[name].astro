@@ -1,0 +1,20 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Form from '../../../components/Form.jsx'
+
+import names from '../../../assets/vardi.json';
+
+export function getStaticPaths() {
+  return Object.keys(names).map(key => ({
+    params: { name: key },
+    props: { fullName: names[key], code: key }
+  }));
+}
+
+const { code } = Astro.props;
+
+---
+
+<Layout>
+    <Form kods={code} client:load></Form>
+</Layout>

@@ -8,11 +8,11 @@ import names from '../../assets/vardi.json';
 export function getStaticPaths() {
   return Object.keys(names).map(key => ({
     params: { name: key },
-    props: { fullName: names[key] }
+    props: { fullName: names[key], code: key  }
   }));
 }
 
-const { fullName } = Astro.props;
+const { fullName, code } = Astro.props;
 
 const links = [
   { name: "WWF", url: "https://www.worldwildlife.org/" },
@@ -50,7 +50,7 @@ const links = [
 		</ul>		
 
 		</ul>
-		<p class=" text-amber-50">Super, tagad tev viss ir skaidrs! Ja varēsi ierasties spied <button class=" bg-yellow-300 text-black px-4 rounded-sm font-bold">šeit</button> . </p> 
+		<p class=" text-amber-50">Super, tagad tev viss ir skaidrs! Ja varēsi ierasties spied <a href={`/ielugums/atbilde/${code}`} class=" bg-yellow-300 text-black px-4 rounded-sm font-bold">šeit</a> . </p> 
 		<p class=" text-amber-50 font-bold my-2">Gaidīšu!</p>
 		<img class="h-52 my-6 fill-amber-50" src={Paraksts.src}></img>
 		<p class="font-bold italic text-4xl mb-4">Par dāvanām:  </p>
@@ -78,7 +78,6 @@ const links = [
 		// Function to update the background position
 		function updateBackgroundPosition() {
 			const scrollY = window.scrollY || window.pageYOffset; // Get the amount scrolled
-			console.log('😊', `Scrolled: ${scrollY}px`);
 	
 			// Select the #main element
 			const mainElement = document.getElementById('main');

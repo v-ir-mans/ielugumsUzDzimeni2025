@@ -1,0 +1,96 @@
+---
+
+import Layout from "./Layout.astro"
+import Astronaut from "../assets/astronaut.png"
+import SpaceBG from "../assets/space.jpg"
+
+const { text } = Astro.props;
+
+---
+
+<Layout>
+    <div style={{ backgroundImage: `url(${SpaceBG.src})` }} class=" h-dvh w-dvw bg-black text-white overflow-clip flex items-center justify-center bg-bottom bg-cover">
+        <p class=" text-9xl">{text}</p>
+        <img id="dvd" src={Astronaut.src} class=" h-48 absolute" alt="">
+    </div>
+    
+    <script is:inline>
+        const dvd = document.getElementById('dvd');
+        const container = document.getElementById('container');
+        
+        // Initial position
+        let x = Math.random() * window.innerWidth/2;
+        let y = Math.random() * window.innerHeight/2;
+        
+        // Initial velocity
+        let vx = 2 + Math.random() * 2;
+        let vy = 2 + Math.random() * 2;
+
+        let rotation=0;
+        
+        // Colors for the logo
+        const colors = [
+            '#ff0000', '#ff00ff', '#00ff00', 
+            '#00ffff', '#0000ff', '#ffff00'
+        ];
+        
+        // Set initial random color
+        changeRotation();
+        
+        // Animation function
+        function animate() {
+            // Get DVD dimensions
+            const dvdWidth =  160;
+            const dvdHeight = 180;
+            
+            // Update position
+            x += vx;
+            y += vy;
+            
+            // Boundary collision detection
+            if (x <= 0 || x >= window.innerWidth-dvdWidth) {
+                vx = -vx;
+                changeRotation();
+            }
+            
+            if (y <= 0 || y >= window.innerHeight - dvdHeight) {
+                vy = -vy;
+                changeRotation();
+            }
+            
+            // Apply position
+            dvd.style.left = x + "px";
+            dvd.style.top = y + "px";
+            
+            // Continue animation
+            requestAnimationFrame(animate);
+        }
+        
+        // Change logo color
+        function changeRotation() {
+            rotation+=5;
+            dvd.style.transform = `rotate(${(rotation)}deg)`;
+        }
+        
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            // Keep DVD in bounds after resize
+            if (x > window.innerWidth) x = window.innerWidth - dvd.offsetWidth/2;
+            if (y > window.innerHeight) y = window.innerHeight - dvd.offsetHeight/2;
+        });
+        
+        // Start animation
+        animate();
+        
+        // Allow user to replace the image
+        function setCustomImage() {
+            const imageUrl = prompt("Enter the URL of your image:");
+            if (imageUrl) {
+                dvd.src = imageUrl;
+            }
+        }
+        
+        // Double-click to change image
+        container.addEventListener('dblclick', setCustomImage);
+    </script>
+</Layout>
