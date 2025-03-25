@@ -36,21 +36,22 @@ const links = [
 		<div class="  bg-black/24= backdrop-grayscale-200 w-12"></div>
 		<div class="  text-3xl text-yellow-300 pr-12">
 		<p class="text-4xl font-bold italic mb-2.5">Sveiki!</p>
-		<p class=" whitespace-pre-line text-amber-50">Šī gada <span class=" opacity-60">(loģiski)</span> 21. maijā, man būs 20 gadi. Un 25. maijā man būs svinības <span class=" opacity-60">(iemesls minēts 1. teikumā)</span>. 
-			Es, Tevi, {fullName} mīļi <span class=" opacity-60">(cerams, ka sanāk)</span> ielūdzu uz svinībām! 
-			Tās notiks Arņa mājās [Es nezinu adresi] plkst [es nezinu laiku]. 
+		<p class=" whitespace-pre-line text-amber-50">Šī gada <span class=" opacity-60">(loģiski)</span> 21. maijā man būs 20 gadi. Un 24. maijā man būs svinības <span class=" opacity-60">(iemesls minēts 1. teikumā)</span>. 
+			Es Tevi, {fullName}, mīļi <span class=" opacity-60">(cerams, ka sanāk)</span> ielūdzu uz svinībām! 
+			Tās notiks Arņa mājās [Es nezinu adresi] plkst 14.45. 
 			Programma vēl nav pilnīgi izstrādāta, bet, cerams, būs jautri. Tātad vēlreiz īsumā: 
 
 		</p>	
-		<ul class=" italic list-disc my-3">
+		<ul class=" italic list-disc mt-3">
 				<li>20 gadi;</li>
-				<li>25. maijs;</li>
+				<li>24. maijs;</li>
 				<li>Arņa mājas;</li>
-				<li>plkst: 15:00. </li>
+				<li>plkst: 14.45. </li>
 		</ul>		
 
 		</ul>
-		<p class=" text-amber-50">Super, tagad tev viss ir skaidrs! Ja varēsi ierasties spied <a href={`/ielugums/atbilde/${code}`} class=" bg-yellow-300 text-black px-4 rounded-sm font-bold">šeit</a> . </p> 
+		<p class=" text-yellow-300 opacity-60 mt-2 mb-3 ">(Papildu informācija lejā!)</p>
+		<p class=" text-amber-50">Super, tagad tev viss ir skaidrs! Lai paziņotu, vai ieradīsies, spied <a href={`/ielugums/atbilde/${code}`} class=" bg-yellow-300 text-black px-4 rounded-sm font-bold">šeit</a> . </p> 
 		<p class=" text-amber-50 font-bold my-2">Gaidīšu!</p>
 		<img class="h-52 my-6 fill-amber-50" src={Paraksts.src}></img>
 		<p class="font-bold italic text-4xl mb-4">Par dāvanām:  </p>
@@ -69,10 +70,12 @@ const links = [
 
 		</div>
 		<p class=" h-24 flex items-center">Paldies!</p>
+
+		<BlackShow></BlackShow>
 	</div>
 	</div>	
 
-	<BlackShow></BlackShow>
+	
 
 	<script is:inline>
 		// Function to update the background position
