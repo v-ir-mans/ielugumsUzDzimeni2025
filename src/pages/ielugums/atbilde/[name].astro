@@ -4,17 +4,26 @@ import Form from '../../../components/Form.jsx'
 
 import names from '../../../assets/vardi.json';
 
-export function getStaticPaths() {
-  return Object.keys(names).map(key => ({
-    params: { name: key },
-    props: { fullName: names[key], code: key }
-  }));
+interface Names {
+	[code: string]: {vok:string, gen:string}; 
 }
 
-const { code } = Astro.props;
+
+
+export function getStaticPaths() {
+
+const typeScriptPleaseLeaveMeAlone: Names = names;
+
+return Object.keys(names).map(key => ({
+  params: { name: key },
+  props: { nameVok: typeScriptPleaseLeaveMeAlone[key]["vok"], nameGen: typeScriptPleaseLeaveMeAlone[key]["gen"],  code: key  }
+}));
+}
+
+const { nameVok, nameGen, code } = Astro.props;
 
 ---
 
-<Layout>
+<Layout  Title={`${nameGen} atbilde`}>
     <Form kods={code} client:load></Form>
 </Layout>

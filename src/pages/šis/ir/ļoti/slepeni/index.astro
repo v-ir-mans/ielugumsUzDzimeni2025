@@ -1,0 +1,26 @@
+---
+import names from '../../../../../assets/vardi.json';
+import Layout from '../../../../../layouts/Layout.astro';
+
+interface Names {
+	[code: string]: {vok:string, gen:string}; 
+}
+
+const json_info:Names=names;
+
+console.log(json_info);
+
+
+---
+
+<Layout>
+    <div class=" pl-4">
+        {Object.entries(json_info).map(([key, value]) => (
+
+            <div>
+            <a class=" text-blue-800 underline " href={`/ielugums/${key}`}>{value.vok}:{key}</a>
+            </div>
+        ))}
+    </div>
+</Layout>
+

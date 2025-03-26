@@ -5,25 +5,37 @@ import BlackShow from '../../components/blackShow.astro';
 
 import names from '../../assets/vardi.json';
 
-export function getStaticPaths() {
-  return Object.keys(names).map(key => ({
-    params: { name: key },
-    props: { fullName: names[key], code: key  }
-  }));
+interface Names {
+	[code: string]: {vok:string, gen:string}; 
 }
 
-const { fullName, code } = Astro.props;
+
+
+//joke
+
+export function getStaticPaths() {
+
+	const typeScriptPleaseLeaveMeAlone: Names = names;
+
+	return Object.keys(names).map(key => ({
+		params: { name: key },
+		props: { nameVok: typeScriptPleaseLeaveMeAlone[key]["vok"], nameGen: typeScriptPleaseLeaveMeAlone[key]["gen"],  code: key  }
+	}));
+}
+
+
+
+const { nameVok, nameGen, code } = Astro.props;
+
 
 const links = [
-  { name: "WWF", url: "https://www.worldwildlife.org/" },
-  { name: "Example 1", url: "https://example.com" },
-  { name: "Example 2", url: "https://example.org" },
-  { name: "Example 3", url: "https://example.net" },
+  { name: "Pasaules Dabas Fonds", url: "https://www.worldwildlife.org/" },
+  { name: "Bērnu slimnīcas fonds", url: "https://www.bsf.lv/lv/ziedot" },
 ];
 
 ---
 
-<Layout>
+<Layout Title={`${nameGen} ielūgums`}>
 
 	<div id="main" class="relative  w-dvw min-h-dvh h-max grid grid-cols-[auto_1fr] grid-rows-[auto_1fr] bg-center bg-cover bg-[url('../assets/compbcg.jpg')]">
 		
@@ -37,16 +49,16 @@ const links = [
 		<div class="  text-3xl text-yellow-300 pr-12">
 		<p class="text-4xl font-bold italic mb-2.5">Sveiki!</p>
 		<p class=" whitespace-pre-line text-amber-50">Šī gada <span class=" opacity-60">(loģiski)</span> 21. maijā man būs 20 gadi. Un 24. maijā man būs svinības <span class=" opacity-60">(iemesls minēts 1. teikumā)</span>. 
-			Es Tevi, {fullName}, mīļi <span class=" opacity-60">(cerams, ka sanāk)</span> ielūdzu uz svinībām! 
-			Tās notiks Arņa mājās [Es nezinu adresi] plkst 14.45. 
+			Es Tevi, {nameVok}, mīļi <span class=" opacity-60">(cerams, ka sanāk)</span> ielūdzu uz svinībām! 
+			Tās notiks Birzītēs, Dzērumos, Ķekavas pagastā plkst 14.45. 
 			Programma vēl nav pilnīgi izstrādāta, bet, cerams, būs jautri. Tātad vēlreiz īsumā: 
 
 		</p>	
 		<ul class=" italic list-disc mt-3">
 				<li>20 gadi;</li>
 				<li>24. maijs;</li>
-				<li>Arņa mājas;</li>
-				<li>plkst: 14.45. </li>
+				<li>Birzītēs, Dzērumos, Ķekavas pagastā;</li>
+				<li>plkst: 14.45;</li>
 		</ul>		
 
 		</ul>
@@ -107,18 +119,16 @@ const links = [
 
 
 <script>
-    // Function to update the clock
-    function updateClock() {
-        const clockElement = document.getElementById('clock').querySelector('p');
+
+function updateClock() {
+        const clockElement = document.getElementById('clock')!.querySelector('p');
         const now = Math.floor(Date.now() / 1000); // Current Unix timestamp in seconds
         const targetDate = new Date('2025-05-25T00:00:00Z').getTime() / 1000; // Unix timestamp for July 4, 2025
-        const difference = targetDate - now; // Difference in seconds
+        const difference = targetDate - now; 
 
-        // Convert difference to days and hours
         const hours = Math.floor(difference / 3600.0 );
 
-        // Update the content of the <p> element
-        clockElement.textContent = `Cur: ${now} | Target: ${targetDate} | Dif: ${hours}h`;
+        if (clockElement) clockElement.textContent = `Cur: ${now} | Target: ${targetDate} | Dif: ${hours}h`;
     }
 
     // Update the clock every 100ms
