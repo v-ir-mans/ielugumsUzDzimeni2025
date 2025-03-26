@@ -28,9 +28,9 @@
 
 <script>
 
-function addRandomPolygons(totalPolygons) {
+function addRandomPolygons(totalPolygons: number) {
   let count = 0;
-  const innerbox = document.getElementById('innerbox');
+  const innerbox = document.getElementById('innerbox')!;
   const mask = document.querySelector('#hole');
   const container = innerbox.parentElement;
   
