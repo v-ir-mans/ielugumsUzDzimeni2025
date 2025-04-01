@@ -9,19 +9,28 @@ const { text } = Astro.props;
 ---
 
 <Layout>
-    <div style={{ backgroundImage: `url(${SpaceBG.src})` }} class=" h-dvh w-dvw bg-black text-white overflow-clip flex items-center justify-center bg-bottom bg-cover">
+    <div style={{ backgroundImage: `url(${SpaceBG.src})` }} class=" h-svh w-dvw bg-black text-white relative overflow-clip flex items-center justify-center bg-bottom bg-cover">
         <p class=" text-9xl">{text}</p>
+        
         <img id="dvd" src={Astronaut.src} class=" h-48 absolute" alt="">
     </div>
     
     <script is:inline>
         const dvd = document.getElementById('dvd');
         const container = document.getElementById('container');
-        
+                
+
         // Initial position
-        let x = Math.random() * window.innerWidth/2;
-        let y = Math.random() * window.innerHeight/2;
+        let x = 20
+        let y = 20
+
+        let width= window.innerWidth;
+        let height=window.innerHeight;
+        const dvdWidth =  150;
+        const dvdHeight = 150; 
+
         
+
         // Initial velocity
         let vx = 2 + Math.random() * 2;
         let vy = 2 + Math.random() * 2;
@@ -40,20 +49,23 @@ const { text } = Astro.props;
         // Animation function
         function animate() {
             // Get DVD dimensions
-            const dvdWidth =  160;
-            const dvdHeight = 180;
+            
+            
             
             // Update position
             x += vx;
             y += vy;
             
+            
             // Boundary collision detection
-            if (x <= 0 || x >= window.innerWidth-dvdWidth) {
+            if (x <= 0 || x >= width-dvdWidth) {
+                console.log("!!!!!!!!!");
+                
                 vx = -vx;
                 changeRotation();
             }
             
-            if (y <= 0 || y >= window.innerHeight - dvdHeight) {
+            if (y <= 0 || y >= height - dvdHeight) {
                 vy = -vy;
                 changeRotation();
             }
