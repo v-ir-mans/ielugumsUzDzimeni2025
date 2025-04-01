@@ -7,32 +7,29 @@
 
           </mask>
         </defs>
-        <!-- create a rect, fill it with the color and apply the above mask -->
 
-        <filter id="noiseFilter">
-            <feTurbulence type="fractalNoise" baseFrequency="0.4" numOctaves="3" stitchTiles="stitch"/>
-            <feBlend in="SourceGraphic" in2="floodFill" mode="lighten" />
-            <feComponentTransfer>
-                <feFuncR type="table" tableValues="0 0.02"/>
-                <feFuncG type="table" tableValues="0 0.02"/>
-                <feFuncB type="table" tableValues="0 0.02"/>
-                <feFuncA type="table" tableValues="1 1"/>
-            </feComponentTransfer>
 
-        </filter>
         
 
-        <rect fill="#111111" width="100%" height="100%" mask="url(#hole)"  filter="url(#noiseFilter)"/>
+        <rect fill="#111111" width="100%" height="100%" mask="url(#hole)"/>
     </svg>
 </div>
 
 <script>
+
+  const is_firefox=navigator.userAgent.includes("Firefox");
+
 
 function addRandomPolygons(totalPolygons: number) {
   let count = 0;
   const innerbox = document.getElementById('innerbox')!;
   const mask = document.querySelector('#hole');
   const container = innerbox.parentElement;
+
+  if (is_firefox) {
+    container.remove();
+    return;
+  }
   
   // Get viewport dimensions for aspect ratio calculation
   const viewportWidth = window.innerWidth;
