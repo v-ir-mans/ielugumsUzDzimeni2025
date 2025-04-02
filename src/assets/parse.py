@@ -4,6 +4,13 @@ import string
 
 import json
 
+
+
+
+random.seed(20)
+
+
+
 def random_string(length):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
